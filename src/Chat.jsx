@@ -80,6 +80,7 @@ export default function Chat() {
         e.preventDefault();
         try {
             await axios.post('/logout');
+            setWs(null);
             setId(null);
             setUserName(null)
             console.log('Logged out successfully');
