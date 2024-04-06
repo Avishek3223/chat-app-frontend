@@ -16,7 +16,7 @@ export default function Chat() {
     const messagesEndRef = useRef(null);
 
     const connectToWs = () => {
-        const ws = new WebSocket('ws://chat-app-backend-mlbxcre6k-avishek3223s-projects.vercel.app');
+        const ws = new WebSocket('ws://chat-app-backend-8pa8mn4yt-avishek3223s-projects.vercel.app');
         setWs(ws);
         ws.addEventListener('message', handleMessage);
         ws.addEventListener('close', () => connectToWs());
