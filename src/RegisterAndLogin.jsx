@@ -10,7 +10,7 @@ export default function RegisterAndLogin() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const url = isLoginOrRegister === "Register" ? "Register" : "Login"
+        const url = isLoginOrRegister === "Register" ? "register" : "login"
 
         try {
             const { data } = await axios.post(url, { userName, password });

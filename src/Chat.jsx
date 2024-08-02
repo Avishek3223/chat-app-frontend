@@ -16,7 +16,7 @@ export default function Chat() {
     const messagesEndRef = useRef(null);
 
     const connectToWs = () => {
-        const ws = new WebSocket('wss://chat-app-backend-e08k.onrender.com');
+        const ws = new WebSocket('https://chat-app-backend-e08k.onrender.com');
         setWs(ws);
         ws.addEventListener('message', handleMessage);
         ws.addEventListener('close', () => connectToWs());
@@ -30,6 +30,7 @@ export default function Chat() {
         const people = {};
         peopleArray.forEach(({ userId, userName }) => {
             people[userId] = userName;
+            console.log(userId)
         });
         setOnlinePeople(people);
     };
