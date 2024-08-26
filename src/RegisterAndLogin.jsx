@@ -1,12 +1,13 @@
 import axios from "axios";
 import { useContext, useState } from "react";
 import { UserContext } from "./UserContext";
+import { FaUserAlt, FaLock } from "react-icons/fa";
 
 export default function RegisterAndLogin() {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [isLoginOrRegister, setIsLoginOrRegister] = useState("Register");
-  const { setUserName: setLoggedInuserName, setId } = useContext(UserContext);
+  const { setUserName: setLoggedInUserName, setId } = useContext(UserContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -14,86 +15,78 @@ export default function RegisterAndLogin() {
 
     try {
       const { data } = await axios.post(url, { userName, password });
-      setLoggedInuserName(userName);
+      setLoggedInUserName(userName);
       setId(data.id);
     } catch (error) {
-      // Handle registration error
-      console.error("Registration error:", error);
-      // Add logic to display an error message to the user
+      console.error("Registration/Login error:", error);
     }
   };
 
   return (
-    <div className="bg-gray-100 h-screen flex ">
-      <form
-        className=" bg-white w-full m-7 md:mx-12 lg:mx-20 xl:mx-24  flex flex-col"
-        onSubmit={handleSubmit}
-      >
-        <div className="flex flex-col m-4 md:m-6 gap-2 xl:m-10">
-          <div className="flex flex-col gap-2 xl:mx-4">
-            <label
-              htmlFor="your email"
-              className="text-green-800 text-sm md:text-lg mt-2 xl:text-xl"
-            >
-              Your email
-            </label>
-            <input
-              value={userName}
-              onChange={(ev) => setUserName(ev.target.value)}
-              type="email"
-              placeholder="Username"
-              className="w-full border-b border-gray-300 focus:outline-none  bg-transparent mb-4 text-sm md:text-lg xl:text-xl pb-1 md:pb-2"
-              required
-            />
+    <div className="bg-gray-50 h-screen flex items-center justify-center">
+      <div className="w-full max-w-md bg-white p-8 shadow-lg rounded-lg">
+        <h2 className="text-3xl font-semibold text-center mb-8">
+          {isLoginOrRegister === "Register"
+            ? "Create an Account"
+            : "Login to Your Account"}
+        </h2>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-6">
+            <div className="flex items-center border border-gray-300 rounded-md p-3 bg-gray-100">
+              <FaUserAlt className="text-gray-500 mr-3" />
+              <input
+                value={userName}
+                onChange={(ev) => setUserName(ev.target.value)}
+                type="text"
+                placeholder="Username"
+                className="block w-full bg-transparent focus:outline-none"
+                required
+              />
+            </div>
           </div>
-          <div className="flex flex-col gap-2 xl:mx-4">
-            <label
-              htmlFor="password
-            "
-              className="text-green-800 text-sm md:text-lg xl:text-xl"
-            >
-              Password
-            </label>
-            <input
-              value={password}
-              onChange={(ev) => setPassword(ev.target.value)}
-              type="password"
-              placeholder="password"
-              className="w-full border-b border-gray-300 focus:outline-none bg-transparent text-sm md:text-lg mb-10 xl:text-xl pb-1 md:pb-2"
-              required
-            />
+          <div className="mb-6">
+            <div className="flex items-center border border-gray-300 rounded-md p-3 bg-gray-100">
+              <FaLock className="text-gray-500 mr-3" />
+              <input
+                value={password}
+                onChange={(ev) => setPassword(ev.target.value)}
+                type="password"
+                placeholder="Password"
+                className="block w-full bg-transparent focus:outline-none"
+                required
+              />
+            </div>
           </div>
-        </div>
-        <div className="flex flex-col mt-20">
-          <button className="bg-emerald-700 rounded-2xl p-3 text-white mx-4 md:mx-10 lg:mx-14 xl:mx-24 text-sm 2xl:mx-36 md:text-lg xl:text-xl">
-            {isLoginOrRegister === "Register" ? "Register" : "Log in"}
+          <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md w-full transition duration-300">
+            {isLoginOrRegister === "Register" ? "Register" : "Login"}
           </button>
-          <div className="text-center mt-2">
-            {isLoginOrRegister === "Register" && (
-              <div className="flex flex-col items-center gap-2 md:text-lg xl:text-xl">
-                Already a member?
+          <div className="text-center mt-6">
+            {isLoginOrRegister === "Register" ? (
+              <p className="text-sm">
+                Already a member?{" "}
                 <button
-                  className="bg-emerald-700 rounded-lg p-2 text-white text-sm md:text-lg xl:text-xl"
+                  type="button"
                   onClick={() => setIsLoginOrRegister("Login")}
+                  className="text-blue-500 hover:underline focus:outline-none"
                 >
                   Login here
                 </button>
-              </div>
-            )}
-            {isLoginOrRegister === "Login" && (
-              <div className="flex flex-col items-center gap-2 md:text-lg xl:text-xl">
-                Dont have a account?
+              </p>
+            ) : (
+              <p className="text-sm">
+                Don't have an account?{" "}
                 <button
-                  className="bg-emerald-700 rounded-lg p-2 text-white text-sm md:text-lg xl:text-xl"
+                  type="button"
                   onClick={() => setIsLoginOrRegister("Register")}
+                  className="text-blue-500 hover:underline focus:outline-none"
                 >
-                  Create here
+                  Create one here
                 </button>
-              </div>
+              </p>
             )}
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   );
 }
